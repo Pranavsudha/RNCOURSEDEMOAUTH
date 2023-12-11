@@ -3,14 +3,18 @@ import react,{useState} from 'react'
 import LoadingOverlay from '../components/ui/LoadingOverlay';
 import AuthContent from "../components/Auth/AuthContent";
 import { createUser } from '../components/util/auth';
+import { AuthContext } from '../../../store/auth-context';
 
 function SignupScreen() {
   const [isAuthenticated, setIsAunthenticated] = useState(false);
+
+  const authCtx = useContext(AuthContext)
 
   async function signupHandler({email, password}) {
     setIsAunthenticated(true);
     try {
     await createUser(email, password); //forward this to createUser()
+    authCtx.authenticate()
     } catch(error){
      Alert.alert('Authentication Failed')
      
@@ -25,4 +29,3 @@ function SignupScreen() {
 }
 
 export default SignupScreen;
-
